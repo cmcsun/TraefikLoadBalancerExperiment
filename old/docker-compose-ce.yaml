@@ -19,7 +19,7 @@ services:
     depends_on:
       - db
     environment:
-      APP_FULL_BASE_URL: https://passbolt.sobe.world
+      APP_FULL_BASE_URL: https://
       DATASOURCES_DEFAULT_HOST: "db"
       DATASOURCES_DEFAULT_USERNAME: "passbolt"
       DATASOURCES_DEFAULT_PASSWORD: "P4ssb0lt"
@@ -36,28 +36,12 @@ services:
         "--",
         "/docker-entrypoint.sh",
       ]
-    labels:
-      traefik.enable: "true"
-      traefik.http.routers.passbolt-http.entrypoints: "web"
-      traefik.http.routers.passbolt-http.rule: "Host(`passbolt.sobe.world`)"
-      traefik.http.routers.passbolt-http.middlewares: "SslHeader@file"
-      traefik.http.routers.passbolt-https.middlewares: "SslHeader@file"
-      traefik.http.routers.passbolt-https.entrypoints: "websecure"
-      traefik.http.routers.passbolt-https.rule: "Host(`passbolt.sobe.world`)"
-      traefik.http.routers.passbolt-https.tls: "true"
-      traefik.http.routers.passbolt-https.tls.certresolver: "letsencrypt"
-  traefik:
-    image: traefik:2.6
-    restart: always
     ports:
       - 80:80
       - 443:443
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./traefik.yaml:/traefik.yaml:ro
-      - ./conf/:/etc/traefik/conf
-      - ./shared/:/shared
-
+    #Alternatively for non-root images:
+    # - 80:8080
+    # - 443:4433
 
 volumes:
   database_volume:
